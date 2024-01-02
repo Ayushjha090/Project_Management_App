@@ -8,6 +8,9 @@ const app = express();
 // Getting port number from env
 const port = process.env.PORT;
 
+// Database connection
+const database = require("./config/dbConfig");
+
 // Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
