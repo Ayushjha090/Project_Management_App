@@ -1,0 +1,26 @@
+{
+  "name": "project-management-app",
+  "version": "1.0.0",
+  "description": "This is the backend application for project management app. This backend app is built using express js.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "project",
+    "management",
+    "express",
+    "mysql",
+    "node"
+  ],
+  "author": "Ayush Jha",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.18.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.2"
+  }
+}
