@@ -1,31 +1,23 @@
-const mysql = require("mysql2");
+const mongoose = require("mongoose");
 
-const mysqlHost = process.env.MYSQL_HOST ? process.env.MYSQL_HOST : "localhost";
-const mysqlUser = process.env.MYSQL_USER ? process.env.MYSQL_USER : "root";
-const mysqlPassword = process.env.MYSQL_PASSWORD
-  ? process.env.MYSQL_PASSWORD
-  : "password";
-const mysqlDatabase = process.env.MYSQL_DATABASE
-  ? process.env.MYSQL_DATABASE
-  : "project-management";
+const mongodbConnectionString = process.env.MONGODB_CONNECTION_STRING
+  ? process.env.MONGODB_CONNECTION_STRING
+  : "";
+const databaseName = process.env.MONGODB_DATABASE_NAME
+  ? process.env.MONGODB_DATABASE_NAME
+  : "";
 
-const connection = mysql.createConnection({
-  host: mysqlHost,
-  user: mysqlUser,
-  password: mysqlPassword,
-  database: mysqlDatabase,
+// Making connection with database
+mongoose.connect(mongodbConnectionString + databaseName);
+const mongoDatabase = mongoose.connection;
+
+mongoDatabase.on("error", (error) => {
+  console.log("Error connecting databse");
+  throw error;
 });
 
-try {
-  connection.connect((err) => {
-    if (err) {
-      console.log("Error connecting database");
-      throw err;
-    }
-    console.log("Successfully connected to MySQL database!");
-  });
-} catch (error) {
-  return;
-}
+mongoDatabase.once("open", () => {
+  console.log("Successfully connected to the database");
+});
 
-module.exports = connection;
+module.exports = mongoDatabase;
