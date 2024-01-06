@@ -2,36 +2,15 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/User");
+const { saltRounds } = require("../config/constants");
+const { generatePasswordHash } = require("../config/helper");
 
-const { registerUserSchema } = require("../validator/authValidator");
-
-const saltRounds = Number(process.env.PASSWORD_SALT_ROUNDS);
 if (!saltRounds) {
   throw new Error("PASSWORD_SALT_ROUNDS environment variable is missing!");
 }
 
-const generatePasswordHash = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const handleUserRegisteration = async (req, res) => {
-  const { body } = req;
-  let data = {};
-  try {
-    data = await registerUserSchema.validate(body, {
-      abortEarly: false,
-      stripUnknown: true,
-    });
-  } catch (error) {
-    return res.status(400).json({ errors: error.errors });
-  }
-
+  const data = req.body;
   const { email, password } = data;
 
   try {

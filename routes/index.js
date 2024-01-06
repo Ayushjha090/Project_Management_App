@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const { handleUserRegisteration } = require("../controllers/authController");
+const resourceValidationMiddleware = require("../middleware/resourceValidationMiddleware");
+const { registerUserSchema } = require("../validator/authValidator");
 
 router.get("/", (req, res) => {
   return res
@@ -9,6 +11,10 @@ router.get("/", (req, res) => {
     .send({ message: "Hello from the project management backend API!" });
 });
 
-router.post("/register", handleUserRegisteration);
+router.post(
+  "/register",
+  resourceValidationMiddleware(registerUserSchema),
+  handleUserRegisteration
+);
 
 module.exports = router;
