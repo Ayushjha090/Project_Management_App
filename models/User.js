@@ -29,6 +29,10 @@ const UserSchema = mongoose.Schema(
       required: true,
       minLength: 8,
     },
+    organizationName: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
