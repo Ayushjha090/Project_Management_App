@@ -20,6 +20,7 @@ const credentialValidationMiddleware = async (req, res, next) => {
           "Invalid email or password. Please check your credentials and try again.",
       });
     }
+    req.userId = user["_id"];
     next();
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });

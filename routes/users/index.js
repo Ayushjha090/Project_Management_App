@@ -9,21 +9,25 @@ const {
   generateOtpSchema,
   loginSchema,
 } = require("../../validator/authValidator");
+const { sendOtp } = require("../../controllers/otpController");
 
 router.post(
   "/",
   resourceValidationMiddleware(registerUserSchema),
-  handleUserRegisteration
+  async (req, res) => await handleUserRegisteration(req, "user", res)
+);
+
+router.post(
+  "/admin",
+  resourceValidationMiddleware(registerUserSchema),
+  async (req, res) => await handleUserRegisteration(req, "admin", res)
 );
 
 router.post(
   "/otp",
   resourceValidationMiddleware(generateOtpSchema),
   credentialValidationMiddleware,
-  (req, res) => {
-    console.log("body", req.body);
-    return res.status(200).send({ message: "Generate OTP" });
-  }
+  sendOtp
 );
 
 module.exports = router;

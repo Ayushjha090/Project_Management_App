@@ -1,4 +1,7 @@
 const bcrypt = require("bcrypt");
+const otpGenerator = require("otp-generator");
+
+const { saltRounds } = require("./constants");
 
 const generatePasswordHash = async (password) => {
   try {
@@ -10,4 +13,16 @@ const generatePasswordHash = async (password) => {
   }
 };
 
-module.exports = { generatePasswordHash };
+const generateOTPObject = async () => {
+  const otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  const expirationTime = new Date().getTime() + 5 * 60000;
+
+  return { otp, expirationTime };
+};
+
+module.exports = { generatePasswordHash, generateOTPObject };

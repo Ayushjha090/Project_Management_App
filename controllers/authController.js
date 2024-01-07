@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 
 const User = require("../models/User");
 const { saltRounds } = require("../utils/constants");
@@ -9,7 +8,7 @@ if (!saltRounds) {
   throw new Error("PASSWORD_SALT_ROUNDS environment variable is missing!");
 }
 
-const handleUserRegisteration = async (req, res) => {
+const handleUserRegisteration = async (req, role, res) => {
   const data = req.body;
   const { email, password } = data;
 
@@ -21,6 +20,7 @@ const handleUserRegisteration = async (req, res) => {
         data.password = hashedPassword;
         const newUser = new User({
           ...data,
+          role: role,
         });
 
         await User.create(newUser);
