@@ -57,4 +57,19 @@ const registerUserSchema = yup
   })
   .required();
 
-module.exports = { registerUserSchema };
+const generateOtpSchema = yup.object({
+  email: yup
+    .string()
+    .required("Kindly provide your email as it is a required field.")
+    .email("Invalid email format"),
+  password: yup
+    .string()
+    .required("Kindly provide your password as it is a required field."),
+});
+
+const loginSchema = yup.object({
+  ...generateOtpSchema,
+  otp: yup.string().required("One Time Password is a required field."),
+});
+
+module.exports = { registerUserSchema, generateOtpSchema, loginSchema };

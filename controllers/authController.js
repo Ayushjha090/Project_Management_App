@@ -2,8 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/User");
-const { saltRounds } = require("../config/constants");
-const { generatePasswordHash } = require("../config/helper");
+const { saltRounds } = require("../utils/constants");
+const { generatePasswordHash } = require("../utils/helper");
 
 if (!saltRounds) {
   throw new Error("PASSWORD_SALT_ROUNDS environment variable is missing!");

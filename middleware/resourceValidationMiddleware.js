@@ -8,7 +8,7 @@ const resourceValidationMiddleware =
   (resourceSchema) => async (req, res, next) => {
     const { body } = req;
     try {
-      await resourceSchema.validate(body);
+      await resourceSchema.validate(body, { abortEarly: false });
       next();
     } catch (error) {
       return res.status(400).json({ errors: error.errors });

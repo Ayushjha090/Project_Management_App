@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { mongodbConnectionString, databaseName } = require("./constants");
+const { mongodbConnectionString, databaseName } = require("../utils/constants");
 
 // Making connection with database
 mongoose.connect(mongodbConnectionString + databaseName);
