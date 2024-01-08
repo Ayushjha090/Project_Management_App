@@ -1,2 +1,7 @@
+# Dependencies
 node_modules/
+
+# Environment variables
 .env
+/keys/rsa.key
+/keys/rsa.key.pub
