@@ -3,11 +3,11 @@ const otpGenerator = require("otp-generator");
 
 const { saltRounds } = require("./constants");
 
-const generatePasswordHash = async (password) => {
+const generateEncryptedHash = async (contentToBeHashed) => {
   try {
     const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
+    const hashedContent = await bcrypt.hash(contentToBeHashed, salt);
+    return hashedContent;
   } catch (error) {
     throw error;
   }
@@ -25,4 +25,4 @@ const generateOTPObject = async () => {
   return { otp, expirationTime };
 };
 
-module.exports = { generatePasswordHash, generateOTPObject };
+module.exports = { generateEncryptedHash, generateOTPObject };

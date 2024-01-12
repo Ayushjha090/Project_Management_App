@@ -3,5 +3,6 @@ node_modules/
 
 # Environment variables
 .env
-/keys/rsa.key
-/keys/rsa.key.pub
+/keys
+/keys/private.pem
+/keys/public.pem

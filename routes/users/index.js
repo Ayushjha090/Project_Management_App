@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { handleUserRegisteration } = require("../../controllers/authController");
+const {
+  handleUserRegisteration,
+  hanldeSessionCreation,
+} = require("../../controllers/authController");
 const resourceValidationMiddleware = require("../../middleware/resourceValidationMiddleware");
 const credentialValidationMiddleware = require("../../middleware/credentialValidationMiddleware");
 const {
@@ -28,6 +31,13 @@ router.post(
   resourceValidationMiddleware(generateOtpSchema),
   credentialValidationMiddleware,
   sendOtp
+);
+
+router.post(
+  "/login",
+  resourceValidationMiddleware(loginSchema),
+  credentialValidationMiddleware,
+  hanldeSessionCreation
 );
 
 module.exports = router;

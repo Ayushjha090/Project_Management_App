@@ -12,14 +12,14 @@ const sendOtp = async (req, res) => {
   }
   try {
     let otpObject = await generateOTPObject();
-    let isOTPExisiting = await OTP.findOne({ otp: otpObject.otp });
-    while (isOTPExisiting) {
+    let isOTPExisiting = await OTP.findOne({ user: user["_id"] });
+    if (isOTPExisiting) {
       otpObject = await generateOTPObject();
-      result = await OTP.findOne({ otp: otpObject.otp });
+      await OTP.updateOne({ user: user["_id"] }, otpObject);
+    } else {
+      const otp = new OTP({ ...otpObject, email: email, user: user["_id"] });
+      await OTP.create(otp);
     }
-
-    const otp = new OTP({ ...otpObject, email: email, user: user["_id"] });
-    await OTP.create(otp);
 
     return res.status(201).send({ message: "OTP sent to registered email id" });
   } catch (error) {

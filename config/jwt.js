@@ -3,11 +3,11 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 
 const privateKey = fs.readFileSync(
-  path.join(__dirname, "keys", "rsa.key"),
+  path.join(__dirname, "..", "keys", "private.pem"),
   "utf8"
 );
 const publicKey = fs.readFileSync(
-  path.join(__dirname, "keys", "rsa.key.pub"),
+  path.join(__dirname, "..", "keys", "public.pem"),
   "utf8"
 );
 

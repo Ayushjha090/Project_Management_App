@@ -1,16 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const OTPSchema = mongoose.Schema(
+const SessionSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    otp: {
+    token: {
       type: String,
       required: true,
+    },
+    revoked: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     expirationTime: {
       type: Date,
@@ -20,8 +25,6 @@ const OTPSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-OTPSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 5 });
+const Session = mongoose.model("Session", SessionSchema);
 
-const OTP = mongoose.model("OTP", OTPSchema);
-
-module.exports = OTP;
+module.exports = Session;
