@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const otpGenerator = require("otp-generator");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const { saltRounds } = require("./constants");
 
@@ -25,4 +26,18 @@ const generateOTPObject = async () => {
   return { otp, expirationTime };
 };
 
-module.exports = { generateEncryptedHash, generateOTPObject };
+const checkObjectIdValid = (id) => {
+  if (ObjectId.isValid(id)) {
+    if (new ObjectId(id) == id) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+module.exports = {
+  generateEncryptedHash,
+  generateOTPObject,
+  checkObjectIdValid,
+};

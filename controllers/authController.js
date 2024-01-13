@@ -60,16 +60,15 @@ const hanldeSessionCreation = async (req, res) => {
     ) {
       const token = signToken({
         id: user["_id"],
+        role: user.role,
         expirationTime: new Date(
           new Date().getTime() + 2 * 24 * 60 * 60 * 1000
         ),
       });
 
-      const encryptedToken = await generateEncryptedHash(token);
-
       const newSession = new Session({
         user: user["_id"],
-        token: encryptedToken,
+        token: token,
         revoked: false,
         expirationTime: new Date(
           new Date().getTime() + 2 * 24 * 60 * 60 * 1000

@@ -5,14 +5,18 @@ const {
   handleUserRegisteration,
   hanldeSessionCreation,
 } = require("../../controllers/authController");
+
 const resourceValidationMiddleware = require("../../middleware/resourceValidationMiddleware");
 const credentialValidationMiddleware = require("../../middleware/credentialValidationMiddleware");
+const auth = require("../../middleware/auth");
+
 const {
   registerUserSchema,
   generateOtpSchema,
   loginSchema,
 } = require("../../validator/authValidator");
 const { sendOtp } = require("../../controllers/otpController");
+const { getUserById } = require("../../controllers/userController");
 
 router.post(
   "/",
@@ -39,5 +43,7 @@ router.post(
   credentialValidationMiddleware,
   hanldeSessionCreation
 );
+
+router.get("/:id", auth, getUserById);
 
 module.exports = router;

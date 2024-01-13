@@ -37,10 +37,15 @@ const signToken = (payload) => {
 
 const verifyToken = (token) => {
   try {
-    const isTokenVerified = jwt.verify(token, publicKey, {
+    const decodedToken = jwt.verify(token, publicKey, {
       algorithm: "RS256",
     });
-    return isTokenVerified;
+
+    if (decodedToken) {
+      return decodedToken;
+    } else {
+      throw new Error("Invalid token");
+    }
   } catch (error) {
     throw error;
   }
