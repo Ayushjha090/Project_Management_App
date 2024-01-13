@@ -12,6 +12,9 @@ if (!saltRounds) {
 }
 
 const handleUserRegisteration = async (req, role, res) => {
+  if (!req || !req.body) {
+    return res.status(500).send({ erro: "Internal server error" });
+  }
   const data = req.body;
   const { email, password } = data;
 
@@ -47,6 +50,12 @@ const handleUserRegisteration = async (req, role, res) => {
 };
 
 const hanldeSessionCreation = async (req, res) => {
+  if (!req) {
+    return res.status(500).send({ error: "Internal server error" });
+  }
+  if (!req.body || !req.body.oneTimePassword) {
+    return res.status(400).send({ error: "Please provide one time password" });
+  }
   const { oneTimePassword } = req.body;
   const user = req.user;
 
@@ -98,7 +107,35 @@ const hanldeSessionCreation = async (req, res) => {
   }
 };
 
+const handleSessionCompletion = async (req, res) => {
+  if (!req) {
+    return res.status(500).send({ error: "Internal server error" });
+  }
+  if (!req.user || !req.user.token) {
+    return res.status(401).send({ error: "Unauthorized action" });
+  }
+  const user = req.user;
+  const { token } = user;
+  try {
+    const session = await Session.findOne({ token });
+
+    if (!session) {
+      throw new Error("Invalid session token");
+    }
+
+    session.revoked = true;
+    session.expirationTime = new Date();
+    await session.save();
+
+    return res.status(200).send({ message: "Logout successful" });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+    throw error;
+  }
+};
+
 module.exports = {
   handleUserRegisteration,
   hanldeSessionCreation,
+  handleSessionCompletion,
 };

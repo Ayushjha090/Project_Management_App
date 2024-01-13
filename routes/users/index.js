@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   handleUserRegisteration,
   hanldeSessionCreation,
+  handleSessionCompletion,
 } = require("../../controllers/authController");
 
 const resourceValidationMiddleware = require("../../middleware/resourceValidationMiddleware");
@@ -43,6 +44,8 @@ router.post(
   credentialValidationMiddleware,
   hanldeSessionCreation
 );
+
+router.get("/logout", auth, handleSessionCompletion);
 
 router.get("/:id", auth, getUserById);
 
